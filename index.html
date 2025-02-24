@@ -1,0 +1,495 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>janroku</title>
+    </head>
+    <script>
+        if(window.innerHeight >= 616){
+            function dd(){
+                var dda = document.getElementById("ddata");
+                dda.style.top = "50%";
+                dda.style.transform = "translateY(-50%)"
+            }
+        }else{function dd(){}}
+        function reach(e){
+            var point = e.parentNode.previousElementSibling.innerHTML;
+            e.parentNode.previousElementSibling.innerHTML = Number(point)-1000
+        }
+        function tumo(e){
+            document.getElementById("")
+            var tmt = e.parentNode.parentNode.parentNode.getAttribute("id").replace("simo","下家").replace("toi","対面").replace("kami","上家").replace("ji","自家");
+            var pr = e.parentNode.parentNode.previousElementSibling.firstElementChild.innerHTML;
+            if(pr == "東") document.getElementById("scores").style.display = "inline"
+            document.getElementById("tumotya").innerHTML = tmt + " ツモ";
+            document.getElementById("zimo").style.display = "block";
+            document.getElementById("gr").style.display = "block";
+        }
+        function han(e){
+            var ein = Number(e.innerHTML[0]);
+            var fu = document.getElementById("fu");
+            var zimo = document.getElementById("zimo");
+            var ykm = document.getElementById("ykm");
+            var hanc = document.getElementById("han").children;
+            for(let i of hanc) i.style = ""
+            e.style.backgroundColor = "#203D24";
+            document.getElementById("yaku").innerHTML = e.innerHTML
+            var par = document.getElementById("scores").checkVisibility();
+            if(ein == 1){
+                fu.innerHTML = '<div onclick="fu(this)">30符</div><div onclick="fu(this)">40符</div><div onclick="fu(this)">50符</div><div onclick="fu(this)">60符</div><div onclick="fu(this)">70符</div><div onclick="fu(this)">80符</div><div onclick="fu(this)">90符</div><div onclick="fu(this)">100符</div><div onclick="fu(this)">110符</div><span></span><span></span><span></span>'
+                fu.style.display = "flex";
+                ykm.style.display = "none";
+                zimo.style.height = "299.6px";
+            }else if(ein == 2){
+                fu.innerHTML = '<div onclick="fu(this)">20符</div><div onclick="fu(this)">30符</div><div onclick="fu(this)">40符</div><div onclick="fu(this)">50符</div><div onclick="fu(this)">60符</div><div onclick="fu(this)">70符</div><div onclick="fu(this)">80符</div><div onclick="fu(this)">90符</div><div onclick="fu(this)">100符</div><div onclick="fu(this)">110符</div><span></span><span></span>'
+                fu.style.display = "flex";
+                ykm.style.display = "none";
+                zimo.style.height = "299.6px";
+            }else if(ein == 3){
+                fu.innerHTML = '<div onclick="fu(this)">20符</div><div onclick="fu(this)">25符</div><div onclick="fu(this)">30符</div><div onclick="fu(this)">40符</div><div onclick="fu(this)">50符</div><span></span><span></span><span></span>'
+                fu.style.display = "flex";
+                ykm.style.display = "none";
+                zimo.style.height = "257px";
+            }else if(ein == 4){
+                fu.innerHTML = '<div onclick="fu(this)">20符</div><div onclick="fu(this)">25符</div><span></span><span></span>';
+                ykm.style.display = "none";
+                fu.style.display = "flex";
+                zimo.style.height = "216px";
+            }else if(e.innerHTML == "役満"){
+                fu.style.display = "none";
+                ykm.style.display = 'flex';
+                zimo.style.height = "216px";
+            }else{
+                var eih = e.innerHTML;
+                var scd = document.getElementById("score");
+                fu.style.display = "none";
+                ykm.style.display = "none";
+                zimo.style.height = "175px";
+                var bsc = eih == "満貫" ? 4000 : eih == "跳満" ? 6000 : eih == "倍満" ? 8000 : eih == "三倍満" ? 12000 : "";
+                par ? document.getElementById("num").innerHTML = bsc : document.getElementById("num").innerHTML = `${bsc/2}/${bsc}`
+                document.getElementById("num").style.visibility = "visible"
+            }
+        }
+        function fu(e){
+            var fuc = document.getElementById("fu").children;
+            var par = document.getElementById("scores").checkVisibility();
+            for(let i of fuc) i.style = "";
+            e.style.backgroundColor = "#203D24";
+            var yaku = document.getElementById("yaku");
+            var score = document.getElementById("score");
+            var sc = Math.ceil((Number(e.innerHTML.slice(0,-1)) * 4 * Math.pow(2,Number(yaku.innerHTML.at(-2))+2))/100);
+            var ps = (sc + sc % 2)/2
+            par ? document.getElementById("num").innerHTML = ps*100 : `${50*(ps + ps % 2)}/${ps*100}`
+            yaku.innerHTML = e.innerHTML+yaku.innerHTML.slice(-2)
+            document.getElementById("num").style.visibility = "visible"
+        }
+        function bai(e){
+            var scd = document.getElementById("score");
+            var par = document.getElementById("scores").checkVisibility();
+            var ykc = document.getElementById("ykm").children;
+            var yaku = document.getElementById("yaku");
+            var ein = e.innerHTML;
+            for(let i of ykc) i.style = ""
+            e.style.backgroundColor = "#203D24";
+            yaku.innerHTML = (ein == "シングル" ? "" : ein)+"役満"
+            var sin = ein == "シングル" ? "16000" : ein == "二倍" ? "32000" : ein == "三倍" ? "48000" : ein == "四倍" ? "64000"  : "";
+            par ? document.getElementById("num").innerHTML = sin : document.getElementById("num").innerHTML = `${sin/2}/${sin}`
+            document.getElementById("num").style.visibility = "visible"
+        }
+        function cf(){
+            //style系リセットコード
+            document.getElementById("gr").style.display = "none";
+            document.getElementById("zimo").style.display = "none";
+            document.getElementById("zimo").style.height = "175px"
+            document.getElementById("yaku").innerHTML = "";
+            document.getElementById("num").style.visibility = "hidden";
+            var hanc = document.getElementById("han").children;
+            for(let i of hanc) i.style = ""
+            document.getElementById("fu").style.display = "none";
+        }
+    </script>
+    <style>
+        body{
+            margin: 0;
+        }
+        body *{
+            position: relative;
+        }
+        #ddata{
+            height: 600px;
+        }
+        .data{
+            width: 360px;
+            height: 100px;
+            background-color: #203D24;
+            border: 5px solid #d18a06;
+        }
+        .data *,#zimo *,#cf{
+            user-select: none;
+        }
+        #simo,#toi,#kami,#ji{
+            position: absolute;
+        }
+        #simo{
+            left: 50%;
+            transform: translateX(-50%) translateY(245px) rotate(-90deg) translateY(140px);
+        }
+        #toi{
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+        }
+        #kami{
+            left: 50%;
+            transform: translateX(-50%) translateY(245px) rotate(90deg) translateY(140px);
+        }
+        #ji{
+            left: 50%;
+            top: 490.6px;
+            transform: translateX(-50%);
+        }
+        .head{
+            width: 100%;
+            height: 40px;
+            background-color: #203D24;
+            border-bottom: 5px solid #d18a06;
+        }
+        .pod{
+            font-size: 30px;
+            height: 40px;
+            width: 40px;
+            background-color: #EE1420;
+            border-right: 5px solid #d18a06;
+            line-height: 45px;
+            text-align: center;
+        }
+        .t{
+            line-height: 40px;
+        }
+        .name{
+            position: absolute;
+            top: 0;
+            line-height: 45px;
+            left: 49px;
+            width: 300px;
+            font-size: 30px;
+            color: white;
+        }
+        .rank{
+            position: absolute;
+            top: 0;
+            line-height: 45px;
+            right: 8px;
+            font-size: 27px;
+            color: white;
+        }
+        .body{
+            height: 55px;
+        }
+        .point{
+            line-height: 60px;
+            left: 5px;
+            color: white;
+            font-size: 40px;
+        }
+        .button{
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            justify-content: space-around;
+            width: 195px;
+            height: 55px;
+        }
+        .reach,.tumo,.ron{
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            color: white;
+            height: 40px;
+            width: 50px;
+            font-size: 22px;
+            background-color: #467F87;
+            border: 3px solid #d18a06;
+        }
+        .reach:hover,.tumo:hover,.ron:hover{
+            transition: all 0.2s;
+            background-color: #61797d;
+        }
+        #zimo{
+            display: none;
+            position: absolute;
+            z-index: 10;
+        	top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 175px;
+            width: 300px;
+            border: 5px solid #d18a06;
+        }
+        #tumotya{
+            position: absolute;
+            padding-left: 4px;
+            width: 296px;
+            font-size: 24px;
+            color: white;
+            background-color: #203D24;
+            height: 38px;
+            line-height: 42px;
+            border-bottom: 5px solid #d18a06;
+        }
+        #yaku{
+            position: absolute;
+            color: white;
+            font-size: 24px;
+            line-height: 42px;
+            right: 8px;
+        }
+        #hanfu{
+            top: 42px;
+            width: 300px;
+        }
+        #scored{
+            width: 300px;
+            height: 52px;
+            color: white;
+            font-size: 38px;
+            background-color: #1a5422;
+        }
+        #scored>div{
+            position: absolute;
+            bottom: -6px;
+            right: 4px;
+        }
+        #num{
+            visibility: hidden;
+        }
+        #scores{
+            display: none;
+            font-size: 24px;
+        }
+        #han{
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #1a5422;
+        }
+        #han>div{
+            color: white;
+            height: 37px;
+            line-height: 37px;
+            width: 56.8px;
+            border-left: 4px solid #d18a06;
+            border-top: 4px solid #d18a06;
+            text-align: center;
+        }
+        #han>div:hover,#fu>div:hover,#ykm>div:hover,#cf:hover{
+            transition: all 0.2s;
+            background-color: #203D24;
+        }
+        #han>div:first-child,#han>div:nth-child(5),#fu>div:first-child,#fu>div:nth-child(5),#fu>div:nth-child(9),#ykm>div:first-child{
+            border-left: none;
+        }
+        .big{
+            width: 72px !important;
+        }
+        #fu,#ykm{
+            display: none;
+            flex-wrap: wrap;
+            background-color: #1a5422;
+        }
+        #fu>div,#fu>span,#ykm>div{
+            text-align: center;
+            height: 37px;
+            line-height: 37px;
+            border-top: 4px solid #d18a06;
+            border-left: 4px solid #d18a06;
+            width: 72px;
+            color: white;
+        }
+        #fu>div:last-child{
+            border-right: 4px solid #d18a06;
+        }
+        #cf{
+            position: absolute;
+            background-color: #1a5422;
+            width: 55px;
+            height: 40px;
+            color: white;
+            font-size: 24px;
+            line-height: 43px;
+            z-index: 10;
+            bottom: -58px;
+            text-align: center;
+            border: 5px solid #d18a06;
+            right: -5px;
+        }
+        #cot{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            width: 160px;
+            height: 160px;
+            background-color: #5c5c5c;
+        }
+        #toir,#jir{
+            position: absolute;
+            width: 115px;
+            height: 15px;
+            background-color: #414141;
+            border-radius: 3px;
+        }
+        #toir>img,#jir>img{
+        	width: 120px;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+        }
+        #simor,#kamir{
+            position: absolute;
+            width: 15px;
+            height: 115px;
+            background-color: #414141;
+            border-radius: 3px;
+        }
+        #simor>img,#kamir>img{
+        	height:115px;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+        }
+        #toir{
+            top: 8px;
+            left: 50%;
+            translate: -50% 0;
+        }
+        #simor{
+            top: 50%;
+            transform: translateY(-50%);
+            left: 8px;
+        }
+        #kamir{
+        	top: 50%;
+        #cot>div>img{
+            top: 50%;
+            left:50%;
+            translate: -50% -50%;
+            width: 115px;
+        }
+        #gr{
+            display: none;
+            top: 0;
+            position: absolute;
+            background-color: #8080807c;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <body>
+    	<div id="ddata">
+            <div class="data" id="toi">
+                <div class="head">
+                    <div class="pod">東</div>
+                    <div class="name">西川</div>
+                    <div class="rank">1位</div>
+                </div>
+                <div class="body">
+                    <div class="point">25000</div>
+                    <div class="button">
+                        <div class="reach" onclick="reach(this)"><div class="t">立直</div></div>
+                        <div class="tumo" onclick="tumo(this)"><div class="t">ツモ</div></div>
+                        <div class="ron" onclick="ron(this)"><div class="t">ロン</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data" id="simo">
+                <div class="head">
+                    <div class="pod">東</div>
+                    <div class="name">西川</div>
+                    <div class="rank">1位</div>
+                </div>
+                <div class="body">
+                    <div class="point">25000</div>
+                    <div class="button">
+                        <div class="reach" onclick="reach(this)"><div class="t">立直</div></div>
+                        <div class="tumo" onclick="tumo(this)"><div class="t">ツモ</div></div>
+                        <div class="ron" onclick="ron(this)"><div class="t">ロン</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data" id="kami">
+                <div class="head">
+                    <div class="pod">東</div>
+                    <div class="name">西川</div>
+                    <div class="rank">1位</div>
+                </div>
+                <div class="body">
+                    <div class="point">25000</div>
+                    <div class="button">
+                        <div class="reach" onclick="reach(this)"><div class="t">立直</div></div>
+                        <div class="tumo" onclick="tumo(this)"><div class="t">ツモ</div></div>
+                        <div class="ron" onclick="ron(this)"><div class="t">ロン</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data" id="ji">
+                <div class="head">
+                    <div class="pod">東</div>
+                    <div class="name">西川</div>
+                    <div class="rank">1位</div>
+                </div>
+                <div class="body">
+                    <div class="point">25000</div>
+                    <div class="button">
+                        <div class="reach" onclick="reach(this)"><div class="t">立直</div></div>
+                        <div class="tumo" onclick="tumo(this)"><div class="t">ツモ</div></div>
+                        <div class="ron" onclick="ron(this)"><div class="t">ロン</div></div>
+                    </div>
+                </div>
+            </div>
+            <script>dd();</script>
+        </div>
+        <div id="zimo">
+            <div id="tumotya">下家 ツモ</div>
+            <div id="yaku"></div>
+            <div id="hanfu">
+                <div id="scored"><div id="score"><span id="num">1</span><span id="scores">オール</span></div></div>
+                <div id="han">
+                    <div class="big" onclick="han(this)">1翻</div>
+                    <div class="big" onclick="han(this)">2翻</div>
+                    <div class="big" onclick="han(this)">3翻</div>
+                    <div class="big" onclick="han(this)">4翻</div>
+                    <div onclick="han(this)">満貫</div>
+                    <div onclick="han(this)">跳満</div>
+                    <div onclick="han(this)">倍満</div>
+                    <div onclick="han(this)">三倍満</div>
+                    <div onclick="han(this)">役満</div>
+                </div>
+                <div id="fu">
+                    <div onclick="fu(this)">20符</div>
+                    <div onclick="fu(this)">25符</div>
+                    <div onclick="fu(this)">30符</div>
+                    <div onclick="fu(this)">40符</div>
+                    <div onclick="fu(this)">50符</div>
+                    <div onclick="fu(this)">60符</div>
+                    <div onclick="fu(this)">70符</div>
+                    <div onclick="fu(this)">80符</div>
+                    <div onclick="fu(this)">90符</div>
+                    <div onclick="fu(this)">100符</div>
+                    <div onclick="fu(this)">110符</div>
+                    <span></span>
+                </div>
+                <div id="ykm">
+                    <div onclick="bai(this)">シングル</div>
+                    <div onclick="bai(this)">二倍</div>
+                    <div onclick="bai(this)">三倍</div>
+                    <div onclick="bai(this)">四倍</div>
+                </div>
+            </div>
+            <div id="cf" onclick="cf()">確定</div>
+        </div>
+        <div id="cot"><div id="toir"><img src="Reach.png"></div><div id="simor"><img src="Reachv.png"></div><div id="kamir"><img src="Reachv.png"></div><div id="jir"><img src="Reach.png"></div></div>
+        <div id="gr"></div>
+    </body>
+</html>
