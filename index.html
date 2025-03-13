@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>janroku</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <script>
         if(window.innerHeight >= 616){
@@ -14,20 +15,23 @@
         function reach(e){
             var point = e.parentNode.previousElementSibling.innerHTML;
             e.parentNode.previousElementSibling.innerHTML = Number(point)-1000
+            e.style.display = "none"
+            var kk = document.getElementById("kk");
+            kk.innerHTML = `×${Number(kk.innerHTML.slice(1))+1}`
+            document.getElementById(`${e.parentNode.parentNode.parentNode.getAttribute("id")}r`).firstElementChild.style.display = "block"
         }
         function tumo(e){
-            document.getElementById("")
             var tmt = e.parentNode.parentNode.parentNode.getAttribute("id").replace("simo","下家").replace("toi","対面").replace("kami","上家").replace("ji","自家");
             var pr = e.parentNode.parentNode.previousElementSibling.firstElementChild.innerHTML;
             if(pr == "東") document.getElementById("scores").style.display = "inline"
-            document.getElementById("tumotya").innerHTML = tmt + " ツモ";
-            document.getElementById("zimo").style.display = "block";
+            document.getElementById("agatya").innerHTML = tmt + " ツモ";
+            document.getElementById("agari").style.display = "block";
             document.getElementById("gr").style.display = "block";
         }
         function han(e){
             var ein = Number(e.innerHTML[0]);
             var fu = document.getElementById("fu");
-            var zimo = document.getElementById("zimo");
+            var agari = document.getElementById("agari");
             var ykm = document.getElementById("ykm");
             var hanc = document.getElementById("han").children;
             for(let i of hanc) i.style = ""
@@ -38,35 +42,36 @@
                 fu.innerHTML = '<div onclick="fu(this)">30符</div><div onclick="fu(this)">40符</div><div onclick="fu(this)">50符</div><div onclick="fu(this)">60符</div><div onclick="fu(this)">70符</div><div onclick="fu(this)">80符</div><div onclick="fu(this)">90符</div><div onclick="fu(this)">100符</div><div onclick="fu(this)">110符</div><span></span><span></span><span></span>'
                 fu.style.display = "flex";
                 ykm.style.display = "none";
-                zimo.style.height = "299.6px";
+                agari.style.height = "299.6px";
             }else if(ein == 2){
                 fu.innerHTML = '<div onclick="fu(this)">20符</div><div onclick="fu(this)">30符</div><div onclick="fu(this)">40符</div><div onclick="fu(this)">50符</div><div onclick="fu(this)">60符</div><div onclick="fu(this)">70符</div><div onclick="fu(this)">80符</div><div onclick="fu(this)">90符</div><div onclick="fu(this)">100符</div><div onclick="fu(this)">110符</div><span></span><span></span>'
                 fu.style.display = "flex";
                 ykm.style.display = "none";
-                zimo.style.height = "299.6px";
+                agari.style.height = "299.6px";
             }else if(ein == 3){
                 fu.innerHTML = '<div onclick="fu(this)">20符</div><div onclick="fu(this)">25符</div><div onclick="fu(this)">30符</div><div onclick="fu(this)">40符</div><div onclick="fu(this)">50符</div><span></span><span></span><span></span>'
                 fu.style.display = "flex";
                 ykm.style.display = "none";
-                zimo.style.height = "257px";
+                agari.style.height = "257px";
             }else if(ein == 4){
                 fu.innerHTML = '<div onclick="fu(this)">20符</div><div onclick="fu(this)">25符</div><span></span><span></span>';
                 ykm.style.display = "none";
                 fu.style.display = "flex";
-                zimo.style.height = "216px";
+                agari.style.height = "216px";
             }else if(e.innerHTML == "役満"){
                 fu.style.display = "none";
                 ykm.style.display = 'flex';
-                zimo.style.height = "216px";
+                agari.style.height = "216px";
             }else{
                 var eih = e.innerHTML;
                 var scd = document.getElementById("score");
                 fu.style.display = "none";
                 ykm.style.display = "none";
-                zimo.style.height = "175px";
+                agari.style.height = "175px";
                 var bsc = eih == "満貫" ? 4000 : eih == "跳満" ? 6000 : eih == "倍満" ? 8000 : eih == "三倍満" ? 12000 : "";
                 par ? document.getElementById("num").innerHTML = bsc : document.getElementById("num").innerHTML = `${bsc/2}/${bsc}`
                 document.getElementById("num").style.visibility = "visible"
+                document.getElementById("cf").style.display = "block";
             }
         }
         function fu(e){
@@ -77,10 +82,11 @@
             var yaku = document.getElementById("yaku");
             var score = document.getElementById("score");
             var sc = Math.ceil((Number(e.innerHTML.slice(0,-1)) * 4 * Math.pow(2,Number(yaku.innerHTML.at(-2))+2))/100);
-            var ps = (sc + sc % 2)/2
-            par ? document.getElementById("num").innerHTML = ps*100 : `${50*(ps + ps % 2)}/${ps*100}`
-            yaku.innerHTML = e.innerHTML+yaku.innerHTML.slice(-2)
-            document.getElementById("num").style.visibility = "visible"
+            var ps = (sc + sc % 2)/2;
+            document.getElementById("num").innerHTML = par ? ps*100 : `${50*(ps + ps % 2)}/${ps*100}`;
+            yaku.innerHTML = e.innerHTML+yaku.innerHTML.slice(-2);
+            document.getElementById("num").style.visibility = "visible";
+            document.getElementById("cf").style.display = "block"
         }
         function bai(e){
             var scd = document.getElementById("score");
@@ -92,19 +98,81 @@
             e.style.backgroundColor = "#203D24";
             yaku.innerHTML = (ein == "シングル" ? "" : ein)+"役満"
             var sin = ein == "シングル" ? "16000" : ein == "二倍" ? "32000" : ein == "三倍" ? "48000" : ein == "四倍" ? "64000"  : "";
-            par ? document.getElementById("num").innerHTML = sin : document.getElementById("num").innerHTML = `${sin/2}/${sin}`
-            document.getElementById("num").style.visibility = "visible"
+            par ? document.getElementById("num").innerHTML = sin : document.getElementById("num").innerHTML = `${sin/2}/${sin}`;
+            document.getElementById("num").style.visibility = "visible";
+            document.getElementById("cf").style.display = "block";
         }
         function cf(){
             //style系リセットコード
             document.getElementById("gr").style.display = "none";
-            document.getElementById("zimo").style.display = "none";
-            document.getElementById("zimo").style.height = "175px"
+            document.getElementById("cf").style.display = "none";
+            document.getElementById("agari").style.display = "none";
+            document.getElementById("agari").style.height = "175px"
             document.getElementById("yaku").innerHTML = "";
+            document.getElementById("ykm").style.display = "none";
             document.getElementById("num").style.visibility = "hidden";
+            document.getElementById("scores").style.display = "none";
             var hanc = document.getElementById("han").children;
-            for(let i of hanc) i.style = ""
+            for(let i of hanc) i.style = "";
+            
             document.getElementById("fu").style.display = "none";
+            for(let i of document.getElementsByClassName("reach")) i.style.display = "block"
+        }
+        function ryu(){
+            var but = document.getElementsByClassName("button");
+            var dat = document.getElementsByClassName("data");
+            var ryu = document.getElementById("ryu");
+            for(let i of but) i.style.display = "none";
+            for(let i of dat){
+                i.classList.add("slc");
+                i.setAttribute("onclick", "this.classList.toggle('sld')")
+            }
+            for(let i of document.getElementsByClassName("reach")) i.style.display = "block"
+            ryu.innerHTML = "確定"
+            ryu.setAttribute("onclick" ,"rcf()")
+        }
+        function rcf(){
+            var but = document.getElementsByClassName("button");
+            var dat = document.getElementsByClassName("data");
+            var ryu = document.getElementById("ryu");
+            for(let i of but) i.style.display = "flex";
+            for(let i of dat){
+                i.classList.remove("slc");
+                i.classList.remove("sld");
+                i.setAttribute("onclick", "")
+            }
+            var kk = document.getElementById("tk");
+            tk.innerHTML = `×${Number(tk.innerHTML.slice(1))+1}`
+            ryu.innerHTML = "流局"
+            ryu.setAttribute("onclick","ryu()")
+        }
+        function ron(e){
+        	var dat = document.getElementsByClassName("data");
+            var but = document.getElementsByClassName("button");
+            var ryu = document.getElementById("ryu");
+            for(let i of but) i.style.display = "none";
+            for(let i of dat){
+                if(i.getAttribute("id") != e.parentNode.parentNode.parentNode.getAttribute("id")){
+            	    i.classList.add("slc");
+                    i.setAttribute("onclick", "sldr(this)");
+                }
+            }
+            ryu.innerHTML = "次へ"
+            ryu.setAttribute("onclick", `nron(${e})`)
+        }
+        function sldr(e){
+        	for(let i of document.getElementsByClassName('slc')){
+                i.classList.remove('sld');
+            }
+            e.classList.add('sld')
+        }
+        function nron(e){
+        	var tmt = e.parentNode.parentNode.parentNode.getAttribute("id").replace("simo","下家").replace("toi","対面").replace("kami","上家").replace("ji","自家");
+            document.getElementById("agatya").innerHTML = tmt + " ロン";
+            var pr = e.parentNode.parentNode.previousElementSibling.firstElementChild.innerHTML;
+        	document.getElementById("agari").style.display = "block";
+            document.getElementById("gr").style.display = "block";
+            document.getElementById("agatya").innerHTML = " ロン";
         }
     </script>
     <style>
@@ -121,9 +189,16 @@
             width: 360px;
             height: 100px;
             background-color: #203D24;
-            border: 5px solid #d18a06;
+            border: 5px solid #c28107;
         }
-        .data *,#zimo *,#cf{
+        .data.slc:hover>div{
+            transition: all 0.2s;
+            background-color: #122315;
+        }
+        .data.slc.sld{
+            border: 5px solid #ff0000;
+        }
+        .data *,#agari *,#cf,#ryu{
             user-select: none;
         }
         #simo,#toi,#kami,#ji{
@@ -150,16 +225,19 @@
             width: 100%;
             height: 40px;
             background-color: #203D24;
-            border-bottom: 5px solid #d18a06;
+            border-bottom: 5px solid #c28107;
         }
         .pod{
             font-size: 30px;
             height: 40px;
             width: 40px;
             background-color: #EE1420;
-            border-right: 5px solid #d18a06;
+            border-right: 5px solid #c28107;
             line-height: 45px;
             text-align: center;
+        }
+        .pod:not(.oya){
+            background-color: #ff9d30;
         }
         .t{
             line-height: 40px;
@@ -208,13 +286,13 @@
             width: 50px;
             font-size: 22px;
             background-color: #467F87;
-            border: 3px solid #d18a06;
+            border: 3px solid #c28107;
         }
-        .reach:hover,.tumo:hover,.ron:hover{
+        .reach:hover,.tumo:hover,.ron:hover,#ryu:hover{
             transition: all 0.2s;
             background-color: #61797d;
         }
-        #zimo{
+        #agari{
             display: none;
             position: absolute;
             z-index: 10;
@@ -223,9 +301,9 @@
             transform: translateX(-50%) translateY(-50%);
             height: 175px;
             width: 300px;
-            border: 5px solid #d18a06;
+            border: 5px solid #c28107;
         }
-        #tumotya{
+        #agatya{
             position: absolute;
             padding-left: 4px;
             width: 296px;
@@ -234,7 +312,7 @@
             background-color: #203D24;
             height: 38px;
             line-height: 42px;
-            border-bottom: 5px solid #d18a06;
+            border-bottom: 5px solid #c28107;
         }
         #yaku{
             position: absolute;
@@ -276,8 +354,8 @@
             height: 37px;
             line-height: 37px;
             width: 56.8px;
-            border-left: 4px solid #d18a06;
-            border-top: 4px solid #d18a06;
+            border-left: 4px solid #c28107;
+            border-top: 4px solid #c28107;
             text-align: center;
         }
         #han>div:hover,#fu>div:hover,#ykm>div:hover,#cf:hover{
@@ -299,15 +377,16 @@
             text-align: center;
             height: 37px;
             line-height: 37px;
-            border-top: 4px solid #d18a06;
-            border-left: 4px solid #d18a06;
+            border-top: 4px solid #c28107;
+            border-left: 4px solid #c28107;
             width: 72px;
             color: white;
         }
         #fu>div:last-child{
-            border-right: 4px solid #d18a06;
+            border-right: 4px solid #c28107;
         }
         #cf{
+            display: none;
             position: absolute;
             background-color: #1a5422;
             width: 55px;
@@ -318,8 +397,27 @@
             z-index: 10;
             bottom: -58px;
             text-align: center;
-            border: 5px solid #d18a06;
+            border: 5px solid #c28107;
             right: -5px;
+        }
+        #kyt,#tumi{
+            position: absolute;
+            width: 99.6px;
+            top: calc(50% - 150px);
+            left: 50%;
+            translate: -50% -50%;
+        }
+        #kyt>img,#tumi>img{
+            height: 40px;
+        }
+        #kyt>span,#tumi>span{
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            translate: 0 -50%;
+        }
+        #tumi{
+            top: calc(50% - 110px);
         }
         #cot{
             position: absolute;
@@ -330,15 +428,18 @@
             height: 160px;
             background-color: #5c5c5c;
         }
+        #cot>div>img{
+            display: none;
+        }
         #toir,#jir{
             position: absolute;
-            width: 120px;
+            width: 115px;
             height: 15px;
             background-color: #414141;
             border-radius: 3px;
         }
         #toir>img,#jir>img{
-        	width: 120px;
+        	width: 113px;
             top: 50%;
             left: 50%;
             translate: -50% -50%;
@@ -346,26 +447,35 @@
         #simor,#kamir{
             position: absolute;
             width: 15px;
-            height: 120px;
+            height: 115px;
             background-color: #414141;
             border-radius: 3px;
+        }
+        #simor>img,#kamir>img{
+            height: 113px;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
         }
         #toir{
             top: 8px;
             left: 50%;
             translate: -50% 0;
         }
-        #simor{
+        #kamir{
             top: 50%;
             transform: translateY(-50%);
             left: 8px;
         }
-        #kamir,#jir{visibility: hidden;}
-        #cot>div>img{
+        #simor{
             top: 50%;
-            left:50%;
-            translate: -50% -50%;
-            width: 120px;
+            translate: 0 -50%;
+            right: 8px;
+        }
+        #jir{
+            left: 50%;
+            bottom: 8px;
+            translate: -50% 0;
         }
         #gr{
             display: none;
@@ -375,12 +485,26 @@
             height: 100%;
             width: 100%;
         }
+        #ryu{
+            left: 50%;
+            top: calc(50% + 100px);
+            translate: -50% 0;
+            text-align: center;
+            line-height: 65px;
+            position: absolute;
+            height: 60px;
+            width: 80px;
+            font-size: 30px;
+            background-color: #467F87;
+            color: white;
+            border: 5px solid #c28107;
+        }
     </style>
     <body>
     	<div id="ddata">
-            <div class="data" id="toi">
+            <div class="data" id="ji">
                 <div class="head">
-                    <div class="pod">東</div>
+                    <div class="pod oya">東</div>
                     <div class="name">西川</div>
                     <div class="rank">1位</div>
                 </div>
@@ -396,7 +520,23 @@
 
             <div class="data" id="simo">
                 <div class="head">
-                    <div class="pod">東</div>
+                    <div class="pod">南</div>
+                    <div class="name">西川</div>
+                    <div class="rank">1位</div>
+                </div>
+                <div class="body">
+                    <div class="point">25000</div>
+                    <div class="button">
+                        <div class="reach" onclick="reach(this)"><div class="t">立直</div></div>
+                        <div class="tumo" onclick="tumo(this)"><div class="t">ツモ</div></div>
+                        <div class="ron" onclick="ron(this)"><div class="t">ロン</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data" id="toi">
+                <div class="head">
+                    <div class="pod">西</div>
                     <div class="name">西川</div>
                     <div class="rank">1位</div>
                 </div>
@@ -412,7 +552,7 @@
 
             <div class="data" id="kami">
                 <div class="head">
-                    <div class="pod">東</div>
+                    <div class="pod">北</div>
                     <div class="name">西川</div>
                     <div class="rank">1位</div>
                 </div>
@@ -426,25 +566,10 @@
                 </div>
             </div>
 
-            <div class="data" id="ji">
-                <div class="head">
-                    <div class="pod">東</div>
-                    <div class="name">西川</div>
-                    <div class="rank">1位</div>
-                </div>
-                <div class="body">
-                    <div class="point">25000</div>
-                    <div class="button">
-                        <div class="reach" onclick="reach(this)"><div class="t">立直</div></div>
-                        <div class="tumo" onclick="tumo(this)"><div class="t">ツモ</div></div>
-                        <div class="ron" onclick="ron(this)"><div class="t">ロン</div></div>
-                    </div>
-                </div>
-            </div>
             <script>dd();</script>
         </div>
-        <div id="zimo">
-            <div id="tumotya">下家 ツモ</div>
+        <div id="agari">
+            <div id="agatya"></div>
             <div id="yaku"></div>
             <div id="hanfu">
                 <div id="scored"><div id="score"><span id="num">1</span><span id="scores">オール</span></div></div>
@@ -482,7 +607,10 @@
             </div>
             <div id="cf" onclick="cf()">確定</div>
         </div>
+        <div id="kyt"><img src="kyt.png"><span id="kk">×0</span></div>
+        <div id="tumi"><img src="tumi.png"><span id="tk">×0</span></div>
         <div id="cot"><div id="toir"><img src="Reach.png"></div><div id="simor"><img src="Reachv.png"></div><div id="kamir"><img src="Reachv.png"></div><div id="jir"><img src="Reach.png"></div></div>
+        <div id="ryu" onclick="ryu()">流局</div>
         <div id="gr"></div>
     </body>
 </html>
